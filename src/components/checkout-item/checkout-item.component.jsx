@@ -1,4 +1,9 @@
-import './checkout-item.style.scss'
+import {
+  Container,
+  ImageContainer,
+  Quantity,
+  RemoveButton,
+} from './checkout-item.style.jsx'
 import { useContext } from 'react'
 import { CartDropdownContext } from '../../context/cartDropdown.context'
 import { MdChevronLeft, MdChevronRight, MdOutlineClose } from 'react-icons/md'
@@ -18,12 +23,12 @@ const CheckoutItem = ({ item }) => {
   }
 
   return (
-    <div className="checkout-item-container">
-      <div className="image-container">
+    <Container>
+      <ImageContainer>
         <img src={imageUrl} alt={name} />
-      </div>
+      </ImageContainer>
       <span className="name">{name}</span>
-      <div className="quantity">
+      <Quantity>
         <span
           className="arrow"
           onClick={handleClickArrow}
@@ -39,12 +44,12 @@ const CheckoutItem = ({ item }) => {
         >
           <MdChevronRight />
         </span>
-      </div>
+      </Quantity>
       <span className="price">{price * quantity}</span>
-      <div className="remove-button" onClick={handleClickRemove}>
+      <RemoveButton onClick={handleClickRemove}>
         <MdOutlineClose />
-      </div>
-    </div>
+      </RemoveButton>
+    </Container>
   )
 }
 

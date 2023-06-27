@@ -4,7 +4,15 @@ import { ReactComponent as ShoppingBag } from '../../assets/shopping-bag.svg'
 import { ReactComponent as RommyLogo } from '../../assets/crown.svg'
 import { UserContext } from '../../context/user.context'
 import { signOutUser } from '../../utils/firebase.utils'
-import './navigation.style.scss'
+import {
+  NavigationContainer,
+  LogoContainer,
+  NavLinks,
+  NavLink,
+  CarrIconContainer,
+  ShoppingIcon,
+  ItemCount,
+} from './navigation.style.jsx'
 import CartDropdown from '../../components/cart-dropdown/cart-dropdown.component'
 
 import { CartDropdownContext } from '../../context/cartDropdown.context'
@@ -20,30 +28,30 @@ const Navigation = () => {
 
   return (
     <Fragment>
-      <div className="navigation">
-        <Link className="logo-container" to="/">
+      <NavigationContainer>
+        <LogoContainer to="/">
           <RommyLogo className="logo" />
-        </Link>
-        <div className="nav-links-container">
-          <Link className="nav-link" to="/shop">
-            Shop
-          </Link>
+        </LogoContainer>
+        <NavLinks>
+          <NavLink to="/shop">Shop</NavLink>
           {currentUser ? (
-            <span className="nav-link" onClick={signOutUser}>
+            <NavLink as="span" onClick={signOutUser}>
               Sign Out
-            </span>
+            </NavLink>
           ) : (
             <Link className="nav-link" to="/auth">
               Sign in
             </Link>
           )}
-          <div className="cart-icon-container" onClick={toggleCartDropDown}>
-            <ShoppingBag className="shopping-icon" />
-            <span className="item-count">{countCartItems}</span>
-          </div>
-        </div>
+          <CarrIconContainer onClick={toggleCartDropDown}>
+            <ShoppingIcon>
+              <ShoppingBag />
+            </ShoppingIcon>
+            <ItemCount>{countCartItems}</ItemCount>
+          </CarrIconContainer>
+        </NavLinks>
         {isDropdown && <CartDropdown cartItems={cartItems} />}
-      </div>
+      </NavigationContainer>
       <Outlet />
     </Fragment>
   )

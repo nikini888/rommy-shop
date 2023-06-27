@@ -10,7 +10,16 @@ import {
   onAuthStateChanged,
 } from 'firebase/auth'
 
-import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore'
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  collection,
+  writeBatch,
+  query,
+  getDocs,
+} from 'firebase/firestore'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDGZTXJT5e3fBEhF9dbSvRmJ5TY-nLp-Z0',
@@ -22,6 +31,34 @@ const firebaseConfig = {
 }
 
 const firebaseApp = initializeApp(firebaseConfig)
+
+export const createCollectionAndDocument = async (collectionKey, objects) => {
+  const collectionRef = collection(db, collectionKey)
+  const batch = writeBatch(db)
+  objects.forEach((item) => {
+    const docRef = doc(collectionRef, item.title.toLowerCase())
+    batch.set(docRef, item)
+  })
+
+  await batch.commit()
+  console.log('finish')
+}
+
+export const getCategoriesAndDocuments = async () => {
+  const collectionRef = collection(db, 'categories')
+  const q = query(collectionRef)
+
+  const querySnapshot = await getDocs(q)
+
+  const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
+    const { title, items } = docSnapshot.data()
+
+    acc[title.toLowerCase()] = items
+
+    return acc
+  }, {})
+  return categoryMap
+}
 
 const provider = new GoogleAuthProvider()
 

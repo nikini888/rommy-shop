@@ -1,6 +1,6 @@
 import { CartDropdownContext } from '../../context/cartDropdown.context'
-import Button from '../button/button.component'
-import './product-card.style.scss'
+import Button, { BUTTON_TYPE_CLASS } from '../button/button.component'
+import { Container, Footer } from './product-card.style.jsx'
 import { useContext } from 'react'
 
 const ProductCart = ({ product }) => {
@@ -11,20 +11,20 @@ const ProductCart = ({ product }) => {
     addItemToCart(product)
   }
   return (
-    <div className="product-card-container">
+    <Container>
       <img src={imageUrl} alt={name} />
-      <div className="footer">
+      <Footer>
         <span className="name">{name}</span>
         <span className="price">{price}</span>
-      </div>
+      </Footer>
       <Button
         type="button"
-        buttonType="inverted"
+        buttonType={BUTTON_TYPE_CLASS.inverted}
         onClick={addProductToCartItems}
       >
         Add to cart
       </Button>
-    </div>
+    </Container>
   )
 }
 

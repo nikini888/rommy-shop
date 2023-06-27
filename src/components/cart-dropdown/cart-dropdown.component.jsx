@@ -3,7 +3,11 @@ import { useContext } from 'react'
 import { CartDropdownContext } from '../../context/cartDropdown.context'
 
 import Button from '../button/button.component'
-import './cart-dropdown.style.scss'
+import {
+  CartDropdownContainer,
+  EmptyMessage,
+  CartItems,
+} from './cart-dropdown.style.jsx'
 import CartItem from '../cart-item/cart-item.component'
 const CartDropdown = ({ cartItems }) => {
   const { setIsDropDown, isDropdown } = useContext(CartDropdownContext)
@@ -17,16 +21,21 @@ const CartDropdown = ({ cartItems }) => {
     setIsDropDown(!isDropdown)
   }
   return (
-    <div className="cart-dropdown-container">
-      <div className="cart-items">
-        {cartItems.length >= 1 &&
-          cartItems.map((item) => <CartItem key={item.id} item={item} />)}
-      </div>
+    <CartDropdownContainer>
+      {cartItems.length ? (
+        <CartItems>
+          {cartItems.map((item) => (
+            <CartItem key={item.id} item={item} />
+          ))}
+        </CartItems>
+      ) : (
+        <EmptyMessage>Your cart is empty</EmptyMessage>
+      )}
 
       <Button type="button" onClick={goToCheckoutHandler}>
         Go to checkout
       </Button>
-    </div>
+    </CartDropdownContainer>
   )
 }
 

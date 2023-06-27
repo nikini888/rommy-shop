@@ -1,38 +1,40 @@
-import './checkout.style.scss'
+import {
+  Container,
+  CheckoutHeader,
+  HeaderBlock,
+  Total,
+} from './checkout.style.jsx'
 import CheckoutItem from '../../components/checkout-item/checkout-item.component'
 import { useContext } from 'react'
 import { CartDropdownContext } from '../../context/cartDropdown.context'
 
 const Checkout = () => {
-  const { cartItems } = useContext(CartDropdownContext)
-  const total = cartItems.reduce(
-    (total, item) => total + item.price * item.quantity,
-    0
-  )
+  const { cartItems, totalCartPrice } = useContext(CartDropdownContext)
+
   return (
-    <div className="checkout-container">
-      <div className="checkout-header">
-        <div className="header-block">
+    <Container>
+      <CheckoutHeader>
+        <HeaderBlock>
           <span>Product</span>
-        </div>
-        <div className="header-block">
+        </HeaderBlock>
+        <HeaderBlock>
           <span>Description</span>
-        </div>
-        <div className="header-block">
+        </HeaderBlock>
+        <HeaderBlock>
           <span>Quantity</span>
-        </div>
-        <div className="header-block">
+        </HeaderBlock>
+        <HeaderBlock>
           <span>Price</span>
-        </div>
-        <div className="header-block">
+        </HeaderBlock>
+        <HeaderBlock>
           <span>Remove</span>
-        </div>
-      </div>
+        </HeaderBlock>
+      </CheckoutHeader>
       {cartItems.map((item) => (
         <CheckoutItem key={item.id} item={item} />
       ))}
-      <span className="total">Total: ${total}</span>
-    </div>
+      <Total>Total: ${totalCartPrice}</Total>
+    </Container>
   )
 }
 
